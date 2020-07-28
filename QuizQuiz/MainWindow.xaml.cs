@@ -48,6 +48,10 @@ namespace QuizQuiz
                     {
                         Thread.Sleep(1000 * 60 * r.Next(1, 10));
                     }
+                    finally
+                    {
+                        Quiz();
+                    }
                 });
             }));
         }
