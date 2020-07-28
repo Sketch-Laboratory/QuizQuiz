@@ -21,6 +21,8 @@ namespace Quiz
     {
         private Question q;
 
+        public int LeftedLife { get; set; } = int.MaxValue;
+
         public QuestionWindow()
         {
             InitializeComponent();
@@ -35,6 +37,11 @@ namespace Quiz
 
         private void Incorrect()
         {
+            if(--LeftedLife < 0)
+            {
+                this.Close();
+                return;
+            }
             MessageBox.Show("오답");
         }
 

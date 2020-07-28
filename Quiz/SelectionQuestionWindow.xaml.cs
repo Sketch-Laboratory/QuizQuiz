@@ -21,6 +21,8 @@ namespace Quiz
     {
         private SelectableQuestion q;
 
+        public int LeftedLife { get; set; } = int.MaxValue;
+
         public SelectableQuestionWindow()
         {
             InitializeComponent();
@@ -28,7 +30,12 @@ namespace Quiz
         }
         private void Incorrect()
         {
-            MessageBox.Show("오답");
+            if (--LeftedLife <= 0)
+            {
+                this.Close();
+                return;
+            }
+            MessageBox.Show("오답입니다.");
         }
 
         private void Correct()

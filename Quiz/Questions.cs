@@ -16,6 +16,7 @@ namespace Quiz
 
         public List<Question> Dictionary { get; private set; } = new List<Question>();
         public List<SelectableQuestion> SDictionary { get; private set; } = new List<SelectableQuestion>();
+        public bool GenerateSelection { get; set; } = true;
 
         public void Load()
         {
@@ -67,17 +68,21 @@ namespace Quiz
 
         public SelectableQuestion GetRandomSelectableQuestion()
         {
-            var c = Dictionary.Count + SDictionary.Count;
-            if (c == 0) return null;
-            var i = r.Next(c);
-            if (Dictionary.Count > i)
+            if (GenerateSelection)
             {
-                return new SelectableQuestion(Dictionary);
+                var c = Dictionary.Count + SDictionary.Count;
+                if (c == 0) return null;
+                var i = r.Next(c);
+                if (Dictionary.Count > i)
+                {
+                    return new SelectableQuestion(Dictionary);
+                }
+                else
+                {
+                    return SDictionary[i - Dictionary.Count];
+                }
             }
-            else
-            {
-                return SDictionary[i - Dictionary.Count];
-            }
+            else return SDictionary[r.Next(SDictionary.Count)];
         }
     }
 

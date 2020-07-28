@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quiz", "Quiz\Quiz.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizChallange", "QuizChallange\QuizChallange.csproj", "{EE3F7154-66DC-4CD3-82B6-CB18ADC0FB78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizChallangeGUI", "QuizChallangeGUI\QuizChallangeGUI.csproj", "{92A18CCB-A3BF-490B-BBF8-EEF36A0C2A14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EE3F7154-66DC-4CD3-82B6-CB18ADC0FB78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE3F7154-66DC-4CD3-82B6-CB18ADC0FB78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE3F7154-66DC-4CD3-82B6-CB18ADC0FB78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92A18CCB-A3BF-490B-BBF8-EEF36A0C2A14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92A18CCB-A3BF-490B-BBF8-EEF36A0C2A14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92A18CCB-A3BF-490B-BBF8-EEF36A0C2A14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92A18CCB-A3BF-490B-BBF8-EEF36A0C2A14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
