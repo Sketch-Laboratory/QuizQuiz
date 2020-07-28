@@ -22,7 +22,7 @@ namespace QuizChallange
             if (args.Length < 2) game.InitializeGame();
             else game.StartGame(int.Parse(args[0]), int.Parse(args[1]));
 
-            Console.WriteLine();
+            Console.Clear();
             Console.Write("한번 더 플레이 하시겠습니까? (Y/N) : ");
             if (Console.ReadLine().Trim().ToUpper().StartsWith("Y")) InitializeGame(args);
             else Quit();

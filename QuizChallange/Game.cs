@@ -8,6 +8,7 @@ namespace QuizChallange
 {
     public class Game
     {
+        private static Random r = new Random();
         public static bool InitializeProgram()
         {
             Console.WriteLine("퀴즈 로딩중..");
@@ -26,30 +27,74 @@ namespace QuizChallange
         {
             for(int round = 1; round <= roundCount; round++)
             {
-                Console.WriteLine();
+                Console.Clear();
                 Console.WriteLine($"[라운드 {round}/{roundCount}]");
-                var q = Questions.Instance.GetRandomQuestion();
-                Console.WriteLine($"Q. {q.Description}");
-                if(CheckAnswer(q, ref lifeCount))
+                var selectable = r.Next(2) == 1;
+                if (!selectable)
                 {
-                    continue;
+                    var q = Questions.Instance.GetRandomQuestion();
+                    Console.WriteLine($"Q. {q.Description}");
+                    if (CheckAnswer(q, ref lifeCount))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        GameOver();
+                        break;
+                    }
                 }
                 else
                 {
-                    GameOver();
-                    break;
+                    var q = Questions.Instance.GetRandomSelectableQuestion();
+                    Console.WriteLine($"Q. {q.Description}");
+                    Console.WriteLine();
+                    for (int i = 0; i < q.Selections.Count; i++)
+                    {
+                        Console.WriteLine($" {i + 1}. {q.Selections[i]}");
+                    }
+                    if (CheckSelection(q, ref lifeCount))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        GameOver();
+                        break;
+                    }
                 }
             }
         }
 
+        private bool CheckSelection(SelectableQuestion q, ref int lifeCount)
+        {
+            Console.WriteLine();
+            Console.Write("A. ");
+            var input = -1;
+            int.TryParse(Console.ReadLine(), out input);
+            if (!q.Check(input-1))
+            {
+                if (--lifeCount == 0) return false;
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"오답입니다! (남은 목숨 : {lifeCount}개)");
+                    return CheckSelection(q, ref lifeCount);
+                }
+            }
+            else return true;
+        }
+
         private bool CheckAnswer(Question q, ref int lifeCount)
         {
+            Console.WriteLine();
             Console.Write("A. ");
             if (!q.Check(Console.ReadLine()))
             {
                 if (--lifeCount == 0) return false;
                 else
                 {
+                    Console.WriteLine();
                     Console.WriteLine($"오답입니다! (남은 목숨 : {lifeCount}개)");
                     return CheckAnswer(q, ref lifeCount);
                 }
@@ -59,6 +104,7 @@ namespace QuizChallange
 
         private void GameOver()
         {
+            Console.WriteLine();
             Console.WriteLine("게임 오버!");
         }
 
@@ -74,6 +120,7 @@ namespace QuizChallange
         private int SetRoundCount()
         {
             Console.WriteLine("총 몇 문제에 도전하시겠습니까? (기본 50문제)");
+            Console.Write("문제 수 : ");
             var input = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(input)) return DefaultRoundCount;
             else try
@@ -91,6 +138,7 @@ namespace QuizChallange
         private int SetLifeCount()
         {
             Console.WriteLine("목숨은 몇 개로 하시겠습니까? (기본 3개)");
+            Console.Write("목숨 수 : ");
             var input = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(input)) return DefaultLifeCount;
             else try
