@@ -6,7 +6,7 @@ using System.Text;
 
 namespace QuizQuiz
 {
-    class Questions
+    public class Questions
     {
         public static Questions Instance { get; private set; } = new Questions();
         private Questions() { }
@@ -31,7 +31,7 @@ namespace QuizQuiz
 
                     var columns = line.Split(';');
                     if (columns.Length < 2) continue;
-                    Dictionary.Add(new Question(columns[0], columns[1]));
+                    Dictionary.Add(new Question(columns[0].Trim(), columns[1].Trim()));
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace QuizQuiz
         }
     }
 
-    class Question : Tuple<string, string> {
+    public class Question : Tuple<string, string> {
         public Question(string answer, string desc) : base(answer, desc)
         {
         }

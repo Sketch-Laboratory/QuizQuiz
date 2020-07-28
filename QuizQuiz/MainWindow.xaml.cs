@@ -22,7 +22,6 @@ namespace QuizQuiz
         {
             InitializeComponent();
             Questions.Instance.Load();
-            Questions.Instance.PrintAll();
 
             new QuestionWindow().Show();
         }
