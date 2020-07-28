@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,9 +24,32 @@ namespace QuizQuiz
         public MainWindow()
         {
             InitializeComponent();
-            Questions.Instance.Load();
 
-            new QuestionWindow().Show();
+            Quiz();
+        }
+
+        private Random r = new Random();
+        private void Quiz()
+        {
+            Questions.Instance.Load();
+            this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
+            {
+                new QuestionWindow().ShowDialog();
+                Task.Factory.StartNew(delegate
+                {
+                    try
+                    {
+                        var DelayRange = File.ReadAllText("./DelayRange.txt").Split(',');
+                        Thread.Sleep(1000 * 60 * r.Next(
+                            int.Parse(DelayRange[0].Trim()),
+                            int.Parse(DelayRange[1].Trim())));
+                    }
+                    catch
+                    {
+                        Thread.Sleep(1000 * 60 * r.Next(1, 10));
+                    }
+                });
+            }));
         }
     }
 }

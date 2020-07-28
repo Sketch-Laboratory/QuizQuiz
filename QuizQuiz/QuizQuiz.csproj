@@ -94,5 +94,10 @@
       <Name>Quiz</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="DelayRange.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
