@@ -17,22 +17,15 @@ namespace Quiz
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class QuestionWindow : Window
+    public partial class SelectableQuestionWindow : Window
     {
-        private Question q;
+        private SelectableQuestion q;
 
-        public QuestionWindow()
+        public SelectableQuestionWindow()
         {
             InitializeComponent();
             this.SizeToContent = SizeToContent.Height;
         }
-
-        private void Submit()
-        {
-            if (q.Check(TextBox_Answer.Text)) Correct();
-            else Incorrect();
-        }
-
         private void Incorrect()
         {
             MessageBox.Show("오답");
@@ -43,22 +36,26 @@ namespace Quiz
             this.Close();
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter) Submit();
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            q = Questions.Instance.GetRandomQuestion();
+            q = Questions.Instance.GetRandomSelectableQuestion();
             if (q == null)
             {
                 this.Close();
                 return;
             }
             Label_Question.Text = q.Description;
-            TextBox_Answer.Text = "";
-            TextBox_Answer.Focus();
+            Layout_Answers.Children.Clear();
+            for (int i= 0; i< q.Selections.Count; i++)
+            {
+                var item = q.Selections[i];
+                var v = new AnswerView(i, item);
+                v.MouseDown += delegate {
+                    if (q.Answer == item) Correct();
+                    else Incorrect();
+                };
+                Layout_Answers.Children.Add(v);
+            }
         }
     }
 }

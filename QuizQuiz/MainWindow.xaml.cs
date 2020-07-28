@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Quiz;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,7 +35,9 @@ namespace QuizQuiz
             Questions.Instance.Load();
             this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
             {
-                new QuestionWindow().ShowDialog();
+                new SelectableQuestionWindow().ShowDialog();
+                //if (r.Next(2) == 1) new QuestionWindow().ShowDialog();
+                //else new SelectableQuestionWindow().ShowDialog();
                 Task.Factory.StartNew(delegate
                 {
                     try
