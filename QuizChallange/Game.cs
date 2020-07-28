@@ -29,8 +29,7 @@ namespace QuizChallange
             {
                 Console.Clear();
                 Console.WriteLine($"[라운드 {round}/{roundCount}]");
-                var selectable = r.Next(2) == 1;
-                if (!selectable)
+                if (r.Next(2) == 1)
                 {
                     var q = Questions.Instance.GetRandomQuestion();
                     Console.WriteLine($"Q. {q.Description}");
@@ -49,9 +48,10 @@ namespace QuizChallange
                     var q = Questions.Instance.GetRandomSelectableQuestion();
                     Console.WriteLine($"Q. {q.Description}");
                     Console.WriteLine();
-                    for (int i = 0; i < q.Selections.Count; i++)
+                    var selections = q.ShuffledSelections;
+                    for (int i = 0; i < selections.Count; i++)
                     {
-                        Console.WriteLine($" {i + 1}. {q.Selections[i]}");
+                        Console.WriteLine($" {i + 1}. {selections[i]}");
                     }
                     if (CheckSelection(q, ref lifeCount))
                     {

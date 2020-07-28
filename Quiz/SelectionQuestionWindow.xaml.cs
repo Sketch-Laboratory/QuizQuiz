@@ -46,9 +46,10 @@ namespace Quiz
             }
             Label_Question.Text = q.Description;
             Layout_Answers.Children.Clear();
-            for (int i= 0; i< q.Selections.Count; i++)
+            var selections = q.ShuffledSelections;
+            for (int i= 0; i< selections.Count; i++)
             {
-                var item = q.Selections[i];
+                var item = selections[i];
                 var v = new AnswerView(i, item);
                 v.MouseDown += delegate {
                     if (q.Answer == item) Correct();

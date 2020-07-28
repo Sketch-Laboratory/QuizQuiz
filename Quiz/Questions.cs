@@ -15,6 +15,7 @@ namespace Quiz
         private Random r = new Random();
 
         public List<Question> Dictionary { get; private set; } = new List<Question>();
+        public List<SelectableQuestion> SDictionary { get; private set; } = new List<SelectableQuestion>();
 
         public void Load()
         {
@@ -31,7 +32,21 @@ namespace Quiz
 
                     var columns = line.Split(';');
                     if (columns.Length < 2) continue;
-                    Dictionary.Add(new Question(columns[0].Trim(), columns[1].Trim()));
+
+                    var answer = columns[0].Trim();
+                    var desc = columns[1].Trim();
+
+                    var selections = answer.Split(':');
+                    if (selections.Length == 1)
+                    {
+                        // 주관식 문제
+                        Dictionary.Add(new Question(answer, desc));
+                    }
+                    else
+                    {
+                        // 답안 지정 객관식 문제
+                        SDictionary.Add(new SelectableQuestion(selections.ToList(), desc));
+                    }
                 }
             }
         }
@@ -52,12 +67,22 @@ namespace Quiz
 
         public SelectableQuestion GetRandomSelectableQuestion()
         {
-            if (Dictionary.Count == 0) return null;
-            return new SelectableQuestion(Dictionary);
+            var c = Dictionary.Count + SDictionary.Count;
+            if (c == 0) return null;
+            var i = r.Next(c);
+            if (Dictionary.Count > i)
+            {
+                return new SelectableQuestion(Dictionary);
+            }
+            else
+            {
+                return SDictionary[i - Dictionary.Count];
+            }
         }
     }
 
-    public class Question : Tuple<string, string> {
+    public class Question : Tuple<string, string>
+    {
         public Question(string answer, string desc) : base(answer, desc) { }
 
         public string Answer { get { return base.Item1; } }
@@ -74,6 +99,7 @@ namespace Quiz
     public class SelectableQuestion
     {
         private Random r = new Random();
+
         public SelectableQuestion(List<Question> questions, int selectionCount = 5)
         {
             if (questions.Count == 0) return;
@@ -90,18 +116,27 @@ namespace Quiz
             }
         }
 
+        public SelectableQuestion(List<string> selections, string desc)
+        {
+            this.Description = desc;
+            this.Answer = selections[0];
+            this.Selections = selections;
+        }
+
         private string GetRandomAnswer(List<Question> questions, List<string> ignores)
         {
             if (questions.Count == 0 || questions.Count <= ignores.Count) return null;
             var q = questions[r.Next(questions.Count)];
             if (ignores.Contains(q.Answer)) return GetRandomAnswer(questions, ignores);
             else return q.Answer;
-            
+
         }
 
         public string Answer { get; private set; }
         public List<string> Selections { get; private set; } = new List<string>();
+
         public string Description { get; private set; }
+
         public bool Check(string input)
         {
             input = input.Trim().ToLower();
@@ -111,6 +146,28 @@ namespace Quiz
         public bool Check(int input)
         {
             return input >= 0 && Selections[input] == Answer;
+        }
+
+        private List<T> Shuffle<T>(List<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = r.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+            return list;
+        }
+
+        public List<string> ShuffledSelections
+        {
+            get
+            {
+                return Shuffle(Selections);
+            }
         }
     }
 }
