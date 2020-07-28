@@ -24,6 +24,7 @@ namespace QuizQuiz
         public QuestionWindow()
         {
             InitializeComponent();
+            this.SizeToContent = SizeToContent.Height;
         }
 
         private void Window_Activated(object sender, EventArgs e)
@@ -34,7 +35,7 @@ namespace QuizQuiz
                 this.Close();
                 return;
             }
-            Label_Question.Content = q.Description;
+            Label_Question.Text = q.Description;
             TextBox_Answer.Text = "";
             TextBox_Answer.Focus();
         }
