@@ -39,21 +39,21 @@ namespace QuizQuiz
                 else new SelectableQuestionWindow().ShowDialog();
                 Task.Factory.StartNew(delegate
                 {
+                    int min, max;
                     try
                     {
                         var DelayRange = File.ReadAllText("./DelayRange.txt").Split(',');
-                        Thread.Sleep(1000 * 60 * r.Next(
-                            int.Parse(DelayRange[0].Trim()),
-                            int.Parse(DelayRange[1].Trim())));
+                        min = int.Parse(DelayRange[0].Trim());
+                        max = int.Parse(DelayRange[1].Trim());
                     }
                     catch
                     {
-                        Thread.Sleep(1000 * 60 * r.Next(1, 10));
+                        min = 2;
+                        max = 10;
                     }
-                    finally
-                    {
-                        Quiz();
-                    }
+                    var sleepMilisec = 1000 * 60 * r.Next(min, max);
+                    Thread.Sleep(sleepMilisec);
+                    Quiz();
                 });
             }));
         }
