@@ -6,10 +6,13 @@
              xmlns:local="clr-namespace:Quiz"
              mc:Ignorable="d" 
              Background="#20000000"
-             d:DesignHeight="450" d:DesignWidth="800" Margin="5">
-    <StackPanel Orientation="Horizontal">
-        <Label x:Name="Label_Index" FontSize="20" VerticalAlignment="Center"/>
-        <TextBlock x:Name="Label_Text" Margin="5, 0, 0, 0" FontSize="18" VerticalAlignment="Center"
-                       TextWrapping="Wrap" />
+             Margin="5">
+    <StackPanel Orientation="Vertical">
+        <TextBlock x:Name="Label_Text" 
+                Margin="5, 0, 0, 0" 
+                FontSize="18"
+                VerticalAlignment="Center"
+                TextWrapping="Wrap" >
+        </TextBlock>
     </StackPanel>
 </UserControl>

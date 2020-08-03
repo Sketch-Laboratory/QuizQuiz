@@ -22,8 +22,7 @@ namespace Quiz
         public AnswerView(int index, string text)
         {
             InitializeComponent();
-            Label_Index.Content = $"{index + 1}.";
-            Label_Text.Text = text;
+            Label_Text.Text = $"{index + 1}. {text}";
         }
     }
 }
