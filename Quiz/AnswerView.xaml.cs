@@ -24,5 +24,12 @@ namespace Quiz
             InitializeComponent();
             Label_Text.Text = $"{index + 1}. {text}";
         }
+
+        public event EventHandler OnClick;
+
+        internal void CallOnClick()
+        {
+            OnClick(null, null);
+        }
     }
 }

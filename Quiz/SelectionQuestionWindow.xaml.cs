@@ -27,7 +27,23 @@ namespace Quiz
         {
             InitializeComponent();
             this.SizeToContent = SizeToContent.Height;
+            this.KeyDown += SelectableQuestionWindow_KeyDown;
         }
+
+        private void SelectableQuestionWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            var children = Layout_Answers.Children;
+            for (int key = (int)Key.D1; key < (int)Key.D9; key++)
+            {
+                if ((int)e.Key != key) continue;
+                var i = key - (int)Key.D1;
+                if (children.Count >= i + 1 && children[i] is AnswerView)
+                {
+                    (children[i] as AnswerView).CallOnClick();
+                }
+            }
+        }
+
         private void Incorrect()
         {
             if (--LeftedLife <= 0)
@@ -58,9 +74,13 @@ namespace Quiz
             {
                 var item = selections[i];
                 var v = new AnswerView(i, item);
-                v.MouseDown += delegate {
+                v.OnClick += delegate {
                     if (q.Answer == item) Correct();
                     else Incorrect();
+                };
+                v.MouseDown += delegate
+                {
+                    v.CallOnClick();
                 };
                 Layout_Answers.Children.Add(v);
             }
